@@ -1,0 +1,34 @@
+{
+  "name": "mehr-it/buffer",
+  "type": "library",
+  "description": "Library implementing buffer utilities",
+  "keywords": [
+    "buffer",
+    "generator",
+    "chunked"
+  ],
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christopher Mieger",
+      "email": "mail@mehr-it.info"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "MehrIt\\Buffer\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MehrItBufferTest\\": "test/"
+    }
+  },
+  "require": {
+    "php": "^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.4"
+  }
+}
