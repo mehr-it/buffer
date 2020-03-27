@@ -4,6 +4,8 @@
 	namespace MehrIt\Buffer;
 
 
+	use RuntimeException;
+
 	/**
 	 * Implements a buffer which is automatically flushed if it is full.
 	 */
@@ -92,6 +94,52 @@
 			foreach ($items as $key => $item) {
 				$this->add($item, $maintainKeys ? $key : null);
 			}
+
+			return $this;
+		}
+
+		/**
+		 * Fills the given keys with the array
+		 * @param iterable $keys The keys
+		 * @param mixed $value The value
+		 * @return $this
+		 */
+		public function fillKeys($keys, $value) {
+
+			foreach($keys as $currKey) {
+				$this->add($value, $currKey);
+			}
+
+			return $this;
+		}
+
+		/**
+		 * Sets the given path's value
+		 * @param string|string[]|int[] $path The path
+		 * @param mixed $value The value
+		 * @return $this
+		 */
+		public function setPath($path, $value) {
+
+			if (!is_array($path))
+				$path = explode('.', $path);
+
+			$rootPath = array_shift($path);
+
+			$item    = ($this->data[$rootPath] ?? []);
+			$pointer = &$item;
+
+			foreach($path as $currKey) {
+				if (($pointer[$currKey] ?? null) === null || !is_array($pointer[$currKey]))
+					$pointer[$currKey] = [];
+
+				$pointer = &$pointer[$currKey];
+			}
+
+			$pointer = $value;
+
+
+			$this->add($item, $rootPath);
 
 			return $this;
 		}

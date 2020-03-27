@@ -34,7 +34,39 @@ You may also specify a key, if you want to replace elements in the buffer at giv
 Of course replacing and existing element does not increase buffer size and therefore does
 not cause a buffer flush.
 
+### Adding multiple items
 
+To add multiple items to the buffer at once, the `addMultiple()` method can be used. By default
+keys are not preserved. You can change this by passing `true` as second parameter.
+
+    $b = new FlushingBuffer(2, function(data) { /* send data */ });
+    $b->addMultiple([1, 2, 3]);
+    
+    // with preserved keys
+
+    $b->addMultiple(['a' => 1, 'b' => 2, 'c' => 3], true);
+
+### Filling array keys
+To fill multiple keys with the same value, the `fillKeys()` method can be used:
+
+    $b = new FlushingBuffer(2, function(data) { /* send data */ });
+    $b->fillKeys(['a', 'b', 'c'], 1);
+    
+This will add/replace the keys `"a"`, `"b"` and `"c"` with the value `1`.
+
+
+### Setting values by path
+The `setPath()` method sets a value for the given array path. The path can be specified as string
+using "dot notation" or as array:
+
+    $b = new FlushingBuffer(2, function(data) { /* send data */ });
+    
+    $b->setPath(['this', 'is', 'a' 'path'], 1);
+    
+    $b->setPath('this.is.another.path'], 2);
+    
+This creates new array levels as needed but only root level items affect the buffer count. 
+ 
 ## Chunk processors
 Chunk processors allow to process an `iterable` in chunks and return the processed items as 
 generator. They act pretty much like PHP's `array_chunk()` function except they working with
