@@ -80,3 +80,11 @@ You may use them like this:
 	$generator = (new ChunkProcessor($in, 500, function($chunk) {
 		yield /* ... */
 	}))->consume();
+	
+To maintain the keys, the `keepKeys` argument may be set to true:
+
+	$generator = (new ChunkProcessor($in, 500, $processor, null, true))->consume();
+	
+Als static method exists, which creates the processor and calls `consume()` in one step:
+
+    $generator = ChunkProcessor::process($in, 500, $processor);
